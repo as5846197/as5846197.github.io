@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="utf-8">
+  
+  <title>ListView滑动隐藏标题栏 | NiuGuLu&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近由于工作需要当listView滑动时，需要将标题栏隐藏和显示。到网上查了查，发现大多是人都是用属性动画实现的。如果大家对属性动画还不是很了解。推荐Android 属性动画使用解析-属性动画基本用法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ListView滑动隐藏标题栏">
+<meta property="og:url" content="http://yoursite.com/2016/03/30/ListView滑动隐藏标题栏/index.html">
+<meta property="og:site_name" content="NiuGuLu's blog">
+<meta property="og:description" content="最近由于工作需要当listView滑动时，需要将标题栏隐藏和显示。到网上查了查，发现大多是人都是用属性动画实现的。如果大家对属性动画还不是很了解。推荐Android 属性动画使用解析-属性动画基本用法。">
+<meta property="og:image" content="http://yoursite.com/img/gif/hideTitleView.gif">
+<meta property="og:updated_time" content="2016-04-01T05:22:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ListView滑动隐藏标题栏">
+<meta name="twitter:description" content="最近由于工作需要当listView滑动时，需要将标题栏隐藏和显示。到网上查了查，发现大多是人都是用属性动画实现的。如果大家对属性动画还不是很了解。推荐Android 属性动画使用解析-属性动画基本用法。">
+<meta name="twitter:image" content="http://yoursite.com/img/gif/hideTitleView.gif">
+  
+    <link rel="alternative" href="/atom.xml" title="NiuGuLu&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <script src="//cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false,
+      }
+  </script>
+
+  
+      <script>
+          yiliaConfig.rootUrl = "/";
+      </script>
+  
+
+  
+      <script>
+          var _hmt = _hmt || [];
+          (function() {
+              var hm = document.createElement("script");
+              hm.src = "//hm.baidu.com/hm.js?ba11c768944d5df47c712711a62b2c9d";
+              var s = document.getElementsByTagName("script")[0]; 
+              s.parentNode.insertBefore(hm, s);
+          })();
+      </script>
+  
+
+  
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+  
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">NiuGuLu</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">吃货码农</p>
+        
+                
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="weibo: http://weibo.com/2307390915" title="新浪微博"></a></li>
+                            
+                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/as5846197" title="GitHub"></a></li>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/mac/" style="font-size: 10px;">mac</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于前端</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">NiuGuLu</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">NiuGuLu</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">吃货码农</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="weibo: http://weibo.com/2307390915" title="新浪微博"></a></li>
+                            
+                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/as5846197" title="GitHub"></a></li>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-ListView滑动隐藏标题栏" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/30/ListView滑动隐藏标题栏/" class="article-date">
+      <time datetime="2016-03-29T23:19:44.000Z" itemprop="datePublished">2016-03-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ListView滑动隐藏标题栏
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><expert in="" index=""><br>最近由于工作需要当listView滑动时，需要将标题栏隐藏和显示。到网上查了查，发现大多是人都是用属性动画实现的。如果大家对属性动画还不是很了解。推荐<a href="http://www.sunnyang.com/386.html" target="_blank" rel="external">Android 属性动画使用解析-属性动画基本用法</a>。<a id="more"></a></expert></p>
+<p><the rest="" of="" constents=""></the></p>
+<h1 id="正文："><a href="#正文：" class="headerlink" title="正文："></a>正文：</h1><p>这里我们主要是通过属性动画实现listView滑动时的titleView的显示和隐藏。如果还有对属性动画不了解的同学。推荐<a href="http://www.sunnyang.com/386.html" target="_blank" rel="external">Android 属性动画使用解析-属性动画基本用法</a>。<br>先上效果图：</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="/img/gif/hideTitleView.gif" alt=""></h2><h3 id="设置flag判断-记录listView和titleView的状态："><a href="#设置flag判断-记录listView和titleView的状态：" class="headerlink" title="设置flag判断,记录listView和titleView的状态："></a>设置flag判断,记录listView和titleView的状态：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">  * ListView滑动动画标记项</span><br><span class="line">  * titleView 滑动和显示的状态</span><br><span class="line"> */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> scrollFlag = <span class="keyword">false</span>;<span class="comment">// 标记是否滑动</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> lastVisibleItemPosition;<span class="comment">// 标记上次滑动位置</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> titleViewIsShow = <span class="keyword">true</span>;<span class="comment">//titleView是否显示</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> titleViewIsScrolling = <span class="keyword">false</span>;<span class="comment">//titleView是否正在滑动</span></span><br></pre></td></tr></table></figure>
+<h3 id="监听listview上滑还是下滑："><a href="#监听listview上滑还是下滑：" class="headerlink" title="监听listview上滑还是下滑："></a>监听listview上滑还是下滑：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">listView.setOnScrollListener(<span class="keyword">new</span> AbsListView.OnScrollListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(AbsListView view, <span class="keyword">int</span> scrollState)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">switch</span> (scrollState) &#123;</span><br><span class="line">                    <span class="keyword">case</span> AbsListView.OnScrollListener.SCROLL_STATE_IDLE:<span class="comment">// 滑动停止</span></span><br><span class="line">                        scrollFlag = <span class="keyword">false</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    <span class="keyword">case</span> AbsListView.OnScrollListener.SCROLL_STATE_FLING:</span><br><span class="line">                        scrollFlag = <span class="keyword">true</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    <span class="keyword">case</span> AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:</span><br><span class="line">                        scrollFlag = <span class="keyword">true</span>;</span><br><span class="line">                    <span class="keyword">default</span>:</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScroll</span><span class="params">(AbsListView view, <span class="keyword">int</span> firstVisibleItem, <span class="keyword">int</span> visibleItemCount, <span class="keyword">int</span> totalItemCount)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (scrollFlag) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (firstVisibleItem &gt; lastVisibleItemPosition &amp;&amp; firstVisibleItem &gt; <span class="number">1</span>) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (!titleViewIsScrolling) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (titleViewIsShow) &#123;</span><br><span class="line">                                titleViewIsScrolling = <span class="keyword">true</span>;</span><br><span class="line">                                hideTitleView();</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (firstVisibleItem &lt; lastVisibleItemPosition) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (!titleViewIsScrolling) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (!titleViewIsShow) &#123;</span><br><span class="line">                                titleViewIsScrolling = <span class="keyword">true</span>;</span><br><span class="line">                                showTitleView();</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (firstVisibleItem == lastVisibleItemPosition) &#123;</span><br><span class="line">                        <span class="keyword">return</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    lastVisibleItemPosition = firstVisibleItem;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="隐藏titleView"><a href="#隐藏titleView" class="headerlink" title="隐藏titleView"></a>隐藏titleView</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">hideTitleView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> height = titleView.getHeight();</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> listViewHeight = listView.getHeight();</span><br><span class="line">        <span class="comment">//这里可以随便起一个名字("titleViewHide")</span></span><br><span class="line">        ObjectAnimator animator = ObjectAnimator.ofFloat(titleView, <span class="string">"titleViewHide"</span>, <span class="number">0f</span>, <span class="number">1f</span>);</span><br><span class="line">        animator.setDuration(<span class="number">300</span>); <span class="comment">//设置时间 300ms</span></span><br><span class="line">        animator.start();</span><br><span class="line">        <span class="comment">//对animator的监听</span></span><br><span class="line">        animator.addUpdateListener(<span class="keyword">new</span> ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animation)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//cVal是一个从0到1的值</span></span><br><span class="line">                <span class="keyword">float</span> cVal = (Float) animation.getAnimatedValue();</span><br><span class="line">                <span class="comment">//titleview 向上移动height的距离 "-"表示向上移动</span></span><br><span class="line">                titleView.setTranslationY(-height * cVal);</span><br><span class="line">                <span class="comment">//titleView向上移动的时候，listview也要向上移动，这样才能保证动画的连贯性</span></span><br><span class="line">                listView.setTranslationY(-height * cVal);</span><br><span class="line">                <span class="comment">//动态的设置listview的高度，如果不对listview的高度进行处理的话，那么就只是listview和titleview整体向上移动</span></span><br><span class="line">                <span class="comment">//listview的下面会有高度为titleView的空白</span></span><br><span class="line">                ViewGroup.LayoutParams params = listView.getLayoutParams();</span><br><span class="line">                params.height = (<span class="keyword">int</span>) (listViewHeight + height * cVal);</span><br><span class="line">                listView.setLayoutParams(params);</span><br><span class="line">                <span class="comment">//当动画执行完成后，记录两个titleView的标记</span></span><br><span class="line">                <span class="keyword">if</span> (cVal == <span class="number">1</span>) &#123;</span><br><span class="line">                    titleViewIsShow = <span class="keyword">false</span>;</span><br><span class="line">                    titleViewIsScrolling = <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="显示titleView"><a href="#显示titleView" class="headerlink" title="显示titleView"></a>显示titleView</h3><p>显示titleView的过程和隐藏titleView的过程是一样的，只要将titleView和listView的移动回来就可以了，还要改变listview的高度。我就不详细解释了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">showTitleView</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> height = titleView.getHeight();</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> listViewHeight = listView.getHeight();</span><br><span class="line">        ObjectAnimator animator = ObjectAnimator.ofFloat(titleView, <span class="string">"titleViewShow"</span>, <span class="number">0f</span>, <span class="number">1f</span>);</span><br><span class="line">        animator.setDuration(<span class="number">300</span>);</span><br><span class="line">        animator.start();</span><br><span class="line">        animator.addUpdateListener(<span class="keyword">new</span> ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animation)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">float</span> cVal = (Float) animation.getAnimatedValue();</span><br><span class="line">                listView.setTranslationY(-height * (<span class="number">1</span> - cVal));</span><br><span class="line">                ViewGroup.LayoutParams params = listView.getLayoutParams();</span><br><span class="line">                params.height = (<span class="keyword">int</span>) (listViewHeight - height * cVal);</span><br><span class="line">                listView.setLayoutParams(params);</span><br><span class="line">                titleView.setTranslationY(-height * (<span class="number">1</span> - cVal));</span><br><span class="line">                <span class="keyword">if</span> (cVal == <span class="number">1</span>) &#123;</span><br><span class="line">                    titleViewIsShow = <span class="keyword">true</span>;</span><br><span class="line">                    titleViewIsScrolling = <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/03/30/ListView滑动隐藏标题栏/">ListView滑动隐藏标题栏</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">NiuGuLu</a></p>
+        <p><span>发布时间:</span>2016-03-30, 07:19:44</p>
+        <p><span>最后更新:</span>2016-04-01, 13:22:55</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/03/30/ListView滑动隐藏标题栏/" title="ListView滑动隐藏标题栏">http://yoursite.com/2016/03/30/ListView滑动隐藏标题栏/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/03/30/ListView滑动隐藏标题栏/　　作者: NiuGuLu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/03/22/Hexo-mac下搭建/">
+                    Hexo mac下搭建
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#正文："><span class="toc-number">1.</span> <span class="toc-text">正文：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#"><span class="toc-number">1.1.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#设置flag判断-记录listView和titleView的状态："><span class="toc-number">1.1.1.</span> <span class="toc-text">设置flag判断,记录listView和titleView的状态：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听listview上滑还是下滑："><span class="toc-number">1.1.2.</span> <span class="toc-text">监听listview上滑还是下滑：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐藏titleView"><span class="toc-number">1.1.3.</span> <span class="toc-text">隐藏titleView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显示titleView"><span class="toc-number">1.1.4.</span> <span class="toc-text">显示titleView</span></a></li></ol></li></ol></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+    <div class="share">
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+    <a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+    <a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+    </div>
+    <script>
+        window._bd_share_config={
+            "common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+</div>
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/03/30/ListView滑动隐藏标题栏/" data-title="ListView滑动隐藏标题栏" data-url="http://yoursite.com/2016/03/30/ListView滑动隐藏标题栏/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"niugulu"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/03/22/Hexo-mac下搭建/" title="下一篇: Hexo mac下搭建">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/03/30/ListView滑动隐藏标题栏/">ListView滑动隐藏标题栏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/22/Hexo-mac下搭建/">Hexo mac下搭建</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 NiuGuLu
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题">Yelee</a> by MOxFIVE
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.1.22/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 4;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
